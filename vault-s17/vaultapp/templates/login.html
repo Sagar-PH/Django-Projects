@@ -1,0 +1,86 @@
+{% extends 'index.html' %}
+{% block head %}
+    <title>Login</title>
+{% endblock %}
+{% block content %}
+    <div>
+        <h1>LOGIN</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <h4>{{ message }}</h4>
+            {% endfor %}
+        {% endif %}
+        <form method="POST" action="#">
+            {% csrf_token %}
+            
+            <label>Username</label>
+            <input type="text" name="username" required><br><br><br>
+            <label>Password</label>
+            <input type="password" name="password" required><br><br><br>
+            <input type="submit" value="Login">
+        </form><br>
+        <p>Create an Account <a href="{% url 'register' %}">SignUp</a>.</p>
+    </div>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        div {
+            border: 2px solid black;
+            border-radius: 5px;
+            width: 430px;
+            height: auto;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 50%);
+        }
+        h1 {
+            text-align: center;
+        }
+        p {
+            margin-top: 20px;
+            margin-left: 40px;
+        }
+        h4, form {
+            margin-left: 40px;
+        }
+        input[type=submit] {
+            width: 75px;
+            height: 30px;
+            border: 0;
+            border-radius: 3px;
+            background-color: rgb(69, 69, 121);
+            color: white;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        input[type=submit]:hover {
+            background-color: rgb(88, 88, 150);
+        }
+        label{
+            display: block;
+            float: left;
+            width: 115px;
+            font-size: 20px;
+        }
+        input {
+            display: block;
+            float: left;
+        }
+        input[type="text"], input[type="password"] {
+            outline: none;
+            width: 230px;
+            height: 25px;
+            border-top: 0;
+            border-left:0;
+            border-right: 0;
+            background: #eee;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.05rem;
+        }
+    </style>
+{% endblock %}

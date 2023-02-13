@@ -1,0 +1,123 @@
+{% extends 'index.html' %}
+{% block head %}
+    <title>Home</title>
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <h3>Username:{{user}}</h3>
+        {% if messages %}
+            {% for message in messages %}
+                <h3>{{ message }}</h3>
+            {% endfor %}
+        {% endif %}
+        <form enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            <p>
+                <label for="id_File">File:</label>
+                {{fm.file}}
+            </p>
+            <p>
+                <label for="id_title">Title:</label>
+                {{fm.title}}
+            </p>
+            <input type="submit" value="Upload">
+        </form>
+        <a href="{% url 'logout' %}">Logout</a>
+        <br>
+        {% if vault|length > 0 %}
+            <table>
+                <tr>
+                    <th>File Name</th>
+                    <th id="cont">Title</th>
+                    <th>View</th>
+                    <th>Download</th>
+                    <th>Delete</th>
+                </tr>
+                {% for vt in vault %}
+                    <tr>
+                        <td id="file">{{vt.file}}</td>
+                        <td id="cont">{{ vt.title }}</td>
+                        <td><a href="{{vt.file.url}}" id="but">View</a></td>
+                        <td><a href="{{vt.file.url}}" download="{{vt.file.url}}">Download</a></td>
+                        <td><a href="{% url 'delete' vt.id %}" style="margin-left: 3px;"  id="but">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </table><br>
+        {% else %}
+            <h4>There are no Todo.</h4>
+        {% endif %}
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+
+    <style>
+        #cont {
+            width: 150px;
+            text-align: center;
+        }
+        th, td {
+            background-color: #d5d1f5;
+            padding: 10px;
+            width: 50px;
+        }
+        table {
+            border: 1px solid black;
+        }
+        #but {
+            text-decoration: none;
+            padding: 5px 10px 5px 10px;
+            border-radius: 3px;
+            background-color: brown;
+            color: azure;
+            margin: 5px 15px 5px 15px;
+        }
+        #but:hover {
+            background-color: rgb(170, 67, 67)
+        }
+        label {
+            display: inline-table;
+            width: 120px;
+            font-weight: bold;
+            font-size: 1.05rem;
+        }
+        input[type=submit] {
+            width: 85px;
+            height: 30px;
+            border: 0;
+            border-radius: 3px;
+            background-color: rgb(69, 69, 121);
+            color: white;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        input[type=submit]:hover {
+            background-color: rgb(88, 88, 150);
+        }
+
+        body {
+            display: grid;
+            justify-content: center;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        input[type=text] {
+            outline: none;
+            width: 200px;
+            height: 23px;
+            border-radius: 3px;
+            border: 1px solid black;
+            font-size: 1.05rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        h4 {
+            text-align: center;
+        }
+        input[type=file] {
+            font-size: 1.05rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+{% endblock %}
