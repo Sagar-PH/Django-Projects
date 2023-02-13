@@ -1,0 +1,158 @@
+{% extends 'todo/index.html' %}
+{% block head %}
+    <title>Change Password</title>
+{% endblock %}
+{% block content %}
+    <div>
+        <h1>Change Password</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <h4>{{ message }}</h4>
+            {% endfor %}
+        {% endif %}
+        <form method="POST" action="">
+            {% csrf_token %}
+            
+            <label>Old Password</label>
+            {{fm.old_password}}<br>
+            <label>New Password</label>
+            {{fm.new_password1}}<br>
+            <label>Confirm Password</label>
+            {{fm.new_password2}}<br>
+            <input type="submit" value="Change">
+        </form><br>
+        <p>Go Back? <a href="{% url 'home' %}">Cancel</a>.</p>
+    </div>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        div {
+            border: 2px solid black;
+            border-radius: 5px;
+            width: 530px;
+            height: auto;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 30%);
+        }
+        h1 {
+            text-align: center;
+        }
+        p {
+            margin-top: 115px;
+            margin-left: 40px;
+            font-size: 1.05rem;
+        }
+        h4, form {
+            margin-left: 40px;
+        }
+        input[type=submit] {
+            width: 100px;
+            height: 30px;
+            border: 0;
+            border-radius: 3px;
+            background-color: rgb(69, 69, 121);
+            color: white;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        input[type=submit]:hover {
+            background-color: rgb(88, 88, 150);
+        }
+        label{
+            display: block;
+            float: left;
+            width: 230px;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        input {
+            display: block;
+            float: left;
+        }
+        input[type="password"] {
+            outline: none;
+            width: 230px;
+            height: 25px;
+            margin-bottom: 20px;
+            border-top: 0;
+            border-left:0;
+            border-right: 0;
+            background: #eee;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.05rem;
+        }
+        @media screen and (max-width: 460px) {
+            body{
+                font-size: 1rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            div {
+                width: 99%;
+            }
+            label {
+                width: 45%;
+                height: 22px;
+                font-size: 1rem;
+            }
+            input[type="password"] {
+                width: 45%;
+                height: 22px;
+                margin-bottom: 18px;
+            }
+            form {
+                margin-left: 20px;
+            }
+            p {
+                margin-top: 100px;
+                margin-left: 20px;
+            }
+        }
+        @media screen and (max-width: 340px) {
+            body {
+                font-size: 1rem;
+            }
+            h1 {
+                font-size: 1.3rem;
+                margin-top: 10px;
+            }
+            div {
+                width: 99%;
+            }
+            input[type="password"] {
+                font-size: 0.85rem;
+                width: 50%;
+                height: 20px;
+                margin-bottom: 22px;
+            }
+            label {
+                margin-bottom: 25px;
+                width: 45%;
+                height: 20px;
+                font-size: 0.85rem;
+            }
+            input[type="submit"] {
+                width: 75px;
+                height: 25px;
+                font-size: 0.9rem;
+                border-radius: 2px;
+            }
+            form {
+                margin-left: 15px;
+            }
+            p {
+                margin-top: 100px;
+                margin-left: 15px;
+                font-size: 0.9rem;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+{% endblock %}
