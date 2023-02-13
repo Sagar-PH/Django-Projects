@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+{% block head %}
+    <title>Home</title>
+{% endblock %}
+{% block content %}
+    <a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'register' %}">Register</a>
+    <style>
+        body {
+            display: grid;
+            justify-content: center;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        @media screen and (max-width: 500px) {
+            body {
+                font-size: 0.92rem;
+            }
+        }
+        @media screen and (max-width: 325px) {
+            body {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+{% endblock %}
