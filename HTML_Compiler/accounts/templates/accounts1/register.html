@@ -1,0 +1,97 @@
+{% extends "main.html" %}
+
+{% block title %} Register {% endblock %}
+
+{% block content %}
+
+<div id="register">
+	<h2>Register</h2>
+	<form method="POST" action="" class="form">
+		{% csrf_token %}
+		{% for form in form %}
+			{{form}} <br> {{form.errors|striptags}} <br>
+		{% endfor %}	
+		<input type="submit" name="Create User" value="Register" class="submit">
+	</form>
+		{% if messages %}
+		{% for message in messages %}
+			<small {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</small>
+		{% endfor %}	
+		{% endif %}	
+	<a href="{% url 'login' %}"><button>Login</button></a>
+</div>
+<style>
+	* {
+		outline: none;
+	}
+	body {
+		background: linear-gradient(to right,#9932cc,#00ffff);
+		font-family: fantasy;
+	}
+	#register {
+		border: 1px solid white;
+		width: 340px;
+		height: auto;
+		background: linear-gradient(to right,#00ffff,#9932cc);
+		position: relative;
+		left: 50%;
+		transform: translate(-50%, 25%);
+		padding: 20px 10px 20px 10px;
+		border-radius: 2px;
+		font-size: 15px;
+	}
+	button {
+		background: linear-gradient(to right,#9932cc,#00ffff);
+		margin-left: 30px;
+		margin-top: 12px;
+		height: 30px;
+		width: 70px;
+		outline: none;
+		border-radius: 2px;
+		border: 1px solid black;
+	}
+	button:focus {
+		outline: none;
+	}
+	a {
+		text-decoration: none;
+		color: white;
+	}
+	.form {
+		margin-left: 30px;
+		font-size: 12px;
+	}
+	.submit {
+		background: linear-gradient(to right,#9932cc,#00ffff);
+		height: 25px;
+		width: 65px;
+		outline: none;
+		border-radius: 2px;
+		border: 1px solid black;
+		margin-top: 15px;
+	}
+	h2 {
+		text-align: center;
+		margin-bottom: 15px;
+	}
+	#id_first_name, #id_username, #id_last_name, #id_email, #id_password1, #id_password2 {
+		border-top: 0;
+		border-left: 0;
+		border-right: 0;
+		border-bottom: 1px solid white;
+		width: 90%;
+		height: 28px;
+		padding-left: 5px;
+		font-size: 14px;
+		border-radius: 2px;
+		background: transparent;
+	}
+	@media screen and (max-width: 500px) {
+		form {
+			width: 90%;
+			height: auto;
+		}
+	}
+</style>
+
+{% endblock %}

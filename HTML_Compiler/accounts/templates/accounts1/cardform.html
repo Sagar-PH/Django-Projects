@@ -1,0 +1,123 @@
+{% extends 'main.html' %}
+{% block head %}
+    <title>Card Form</title>
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if messages %}
+            {% for message in messages %}
+                <h3>{{ message }}</h3>
+            {% endfor %}
+        {% endif %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            <p>
+                <label for="id_title">Title:</label>
+                {{fm.title}}
+            </p>
+            <p>
+                <label for="id_description">Description:</label>
+                {{fm.description}}
+            </p>
+            <p>
+                <label for="id_img">Image Link:</label>
+                {{fm.img_link}}
+            </p>
+            <p>
+                <label for="id_html">HTML Code:</label>
+                {{fm.html}}
+            </p>
+            <p>
+                <label for="id_css">CSS Code:</label>
+                {{fm.css}}
+            </p>
+            <p>
+                <label for="id_js">Javascript Code:</label>
+                {{fm.javascript}}
+            </p>
+            <input type="submit" value="ADD">
+        </form>        
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+
+    <style>
+        body {
+            margin-top: 20px;
+        }
+        #cont {
+            width: 150px;
+            text-align: center;
+        }
+        label {
+            display: inline-table;
+            width: 120px;
+            font-weight: bold;
+            font-size: 1.05rem;
+        }
+        input[type=submit] {
+            width: 75px;
+            height: 30px;
+            border: 0;
+            border-radius: 3px;
+            background-color: rgb(69, 69, 121);
+            color: white;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        input[type=submit]:hover {
+            background-color: rgb(88, 88, 150);
+        }
+
+        body {
+            display: grid;
+            justify-content: center;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        input[type=text] {
+            outline: none;
+            width: 200px;
+            height: 23px;
+            border-radius: 3px;
+            border: 1px solid black;
+            font-size: 1.05rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        h4 {
+            text-align: center;
+        }
+        @media screen and (max-width: 500px) {
+            body {
+                font-size: 0.92rem;
+            }
+            form {
+                width: 100%;
+                margin-right: 5px; 
+            }
+        }
+        @media screen and (max-width: 325px) {
+            body, label {
+                font-size: 0.8rem;
+            }
+            form {
+                width: 100%;
+                margin-top: 0px;
+            }
+            input[type=submit] {
+                font-size: 0.8rem;
+                width: 50px;
+                height: 28px;
+            }
+            input[type=text] {
+                width: 150px;
+            }
+            label {
+                width: 80px;
+            }
+        }
+    </style>
+{% endblock %}

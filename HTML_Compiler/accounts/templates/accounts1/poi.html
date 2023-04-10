@@ -1,0 +1,508 @@
+Django Customization
+
+#urls.py
+#admin.site.site_title = 'Admin'
+#admin.site.site_header = 'Adminstration'
+
+
+Delete Account
+
+#views.py
+"""from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required"""
+
+"""@login_required
+def Account_Deleted(request):
+  if request.method == "POST":
+    u = User.objects.get(username=request.user)
+    u.delete()
+    return HttpResponse("<h1>Your Account Deleted Successfully!!</h1>")
+  return render(request, 'accounts1/deleted_account.html')"""
+
+#urls.py
+#path('account_deleted/', views.Account_Deleted, name="account_deleted"),
+
+
+models.py
+
+class Article(models.Model):
+	title = models.CharField(max_length=50)
+	slug = models.SlugField()
+	image = models.ImageField(upload_to='article_images')
+	description = models.TextField()
+	article_by = models.CharField(max_length=50, default='')
+	article_date_and_time = models.DateTimeField()
+
+
+	def __str__(self):
+		return self.title
+
+forms.py
+
+from .models import Article
+class ArticleForm(forms.ModelForm):
+	class Meta:
+		model = Article
+		fields = ['title', 'slug', 'image', 'description', 'article_by', 'article_date_and_time']
+
+admin.py
+from .models import Article
+admin.site.register(Article)
+
+urls.py
+from django.conf.urls import url
+from . import views
+
+app_name = 'accounts'
+
+urlpatterns = [
+    url(r'^articles/$', views.article_list, name="list"),
+    url(r'^accounts/(?P<slug>[\w-]+)/$', views.article_detail, name="detail"),
+]
+
+app/urls.py
+
+path('calculator', views.calculator, name='calculator'),
+path('article_add/', views.article_add, name='article_add'),
+
+views.py
+
+from .models import Article
+from .forms import ArticleForm
+
+def home(request):
+	return render(request, 'dashboard.html')
+
+		res = a + b
+		def calculator(request):
+		num1 = request.POST['num1']
+		opr1 = str(request.POST['opr'])
+		num2 = request.POST['num2']
+		if num1.isdigit() and num2.isdigit():
+			a=int(num1)
+			b=int(num2)
+			if opr1 == '+':
+			elif opr1 == '-':
+				res = a - b
+			elif opr1 == '*':
+				res = a * b
+			elif opr1 == '/':
+				res = a / b
+			elif opr1 == '%':
+				res = a % b
+			else:
+				res = "Invalid operator"
+
+			return render(request, 'calculator.html', {'result': res})
+		else:
+			res = "Enter number."
+			return render(request, 'calculator.html', {'result': res})
+
+
+def article_add(request):
+	if request.method == "POST":
+		form = ArticleForm(request.POST, request.FILES )
+		if form.is_valid():
+			title = form.cleaned_data['title']
+			slug = form.cleaned_data['slug']
+			image = form.cleaned_data['image']
+			description = form.cleaned_data['description']
+			article_by = form.cleaned_data['article_by']
+			article_date_and_time = form.cleaned_data['article_date_and_time']
+
+
+			form.save()
+			messages.success(request,'Article Added!')
+
+			return redirect('/article_add/')
+	else:
+		form = ArticleForm()
+		
+	context = {'form':form}
+	return render(request, 'articles/article.html', context)
+	
+def article_list(request):
+	articles = Article.objects.all().order_by('article_date_and_time');
+	return render(request, 'articles/articles_list.html', {'articles': articles})
+
+def article_detail(request, slug):
+    article = Article.objects.get(slug=slug)
+    return render(request, 'articles/article_detail.html', { 'article': article })
+
+dashboard.html
+
+<!--<a><button onclick="display('display')">Calculator</button></a></h1>
+<div id="float">
+	<div id="display">
+		<form action="calculator" method="post">
+			{% csrf_token %}<br>
+			<input type="text" name="num1" placeholder="Enter 1st Number"><br><br>
+			<input type="text" name="opr" placeholder="Enter Operator"><br><br>
+			<input type="text" name="num2" placeholder="Enter 2nd Number"><br><br>
+			<input type="submit"><br>
+		</form>
+	</div>
+</div>
+
+<script>
+	function display(id) {
+
+		var x = document.getElementById(id);
+
+		if(x.style.display == "block")
+			x.style.display = "none";
+		else
+			x.style.display = "block";
+	}
+</script>
+
+calculator.html
+
+{%} extends "main.html" %}
+
+{% block title %} Answer {% endblock %}
+
+{% block content %}
+<div class="header"><p class="para">Answer</p></div>
+<div>
+	<p class="content" >Result:{{result}}</p><br>
+	<a href="{% url '' %}" >To Dashboard</a>
+</div>
+<style>
+	* {
+		outline: none;
+		margin: 0;
+		padding: 0;
+	}
+	body {
+		background: linear-gradient(to right,#bdc3c7,#2c3e50);
+	}
+	.content {
+		font-family: Georgia, serif;
+		font-size: large;
+		margin-left: 60px;
+		line-height: 1.6em;
+		margin-top: 40px;
+	}
+	.header {
+		width: 100%;
+		height: 70px;
+		background: #5c6e80;
+	}
+	.para {
+		font-family: Georgia, serif;
+		letter-spacing: 1px;
+		font-weight: normal;
+		font-size: xx-large;
+		align-items: center;
+		margin-left: 25px;
+		padding-top: 15px;
+	}
+	a {
+		text-decoration: none;
+		color: black;
+		margin-left: 60px;
+		font-size: larger;
+	}
+	a:hover {
+		text-decoration: underline;
+		font-style: italic;
+		letter-spacing: 1px;
+		font-weight: bold;
+	}
+</style>
+{% endblock %}
+
+article.html
+
+{% extends "main.html" %}
+{% load static %}
+
+{% block title %} Add Article {% endblock %}
+
+{% block content %}
+<div class="header"><p class="para">Article</p></div>
+<div style="margin-left: 60px; margin-top: 10px; font-family: Georgia, serif; font-size: 18px;">{% if messages %}
+	{% for message in messages %}
+		{{message}}
+	{% endfor %}	
+{% endif %}</div>	
+<form action="/article_add/" method="post" id="article" enctype="multipart/form-data">
+	{% csrf_token %}
+	{% for form in form %}
+		{{form.label_tag}}{{form}}<br> {{form.errors|striptags}}<br>
+	{% endfor %}
+	<button type="submit">Submit</button><br><br>
+	<a href="/articles/">Articles</a>
+</form>
+<style>
+	* {
+		outline: none;
+		margin: 0;
+		padding: 0;
+	}
+	body {
+		background: linear-gradient(to right,#bdc3c7,#2c3e50);
+	}
+	#article {
+		font-family: Georgia, serif;
+		font-size: large;
+		margin-left: 60px;
+		line-height: 1.6em;
+		margin-top: 40px;
+	}
+	a {
+		text-decoration: none;
+		color: black;
+	}
+	button {
+		width: 100px;
+		height: 32px;
+		font-size: large;
+		font-family: fantasy;
+		letter-spacing: 1px;
+		border:0;
+		background: #dde3e7;
+		border-radius: 2px;
+		margin-top: 30px;
+	}
+	button:hover {
+		background: #5c6e80;
+		cursor: pointer;
+	}
+	button:focus {
+		outline: none;
+	}
+	#id_article_by, #id_article_date_and_time, #id_title, #id_slug {
+		width: 200px;
+		height: 30px;
+		padding-left: 5px;
+	}
+	#id_description {
+		width: 350px;
+		height: 150px;
+		padding-left: 5px;
+		margin-right: 35px;
+	}
+	#id_title, #id_slug, #id_article_by, #id_article_date_and_time, #id_description {
+		border-radius: 2px;
+		border: 1px solid black;
+		font-size: large;
+	}
+	.header {
+		width: 100%;
+		height: 70px;
+		background: #5c6e80;
+	}
+	.para {
+		font-family: Georgia, serif;
+		letter-spacing: 1px;
+		font-weight: normal;
+		font-size: xx-large;
+		align-items: center;
+		margin-left: 25px;
+		padding-top: 15px;
+	}
+	a:hover {
+		text-decoration: underline;
+		font-style: italic;
+		letter-spacing: 1px;
+		font-weight: bold;
+	}
+	label {
+		width: 240px;
+		display: inline-block;
+	}
+</style>
+{% endblock %}
+
+article_detail.html
+
+{% extends "main.html" %}
+{% load static %}
+
+{% block title %} Article List {% endblock %}
+
+{% block content %}
+
+<div class="header"><p class="para">Articles List</p></div>
+<div class="content">
+	<div class="article">
+    	<h2>{{ article.title }}</h2><hr><br>
+			<a href="{{ article.image.url }}">
+    		<div><img src="{{ article.image.url }}" alt=""></div>
+    	</a>
+	   	<p>{{ article.description|linebreaks }}</p>
+ 			<div style="width: 100%;"><p style="float: right; margin-right: 80px;">-- {{article.article_by}},<br>{{article.article_date_and_time}}</p></div>
+			<br><br>
+  </div>
+</div>
+<a href="/articles/" class="addart">Back To Articles</a>
+
+<style>
+    * {
+        outline: none;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        background: linear-gradient(to right,#bdc3c7,#2c3e50);
+        margin-bottom: 150px;
+    }
+    .content {
+        font-family: Georgia, serif;
+        font-size: large;
+        line-height: 1.6em;
+        margin: 50px 50px 0 60px;
+    }
+    .header {
+        width: 100%;
+        height: 70px;
+        background: #5c6e80;
+    }
+    .addart {
+        margin: 50px 50px 50px 50px;
+        float: left;
+        font-family: Georgia, serif;
+    }
+    hr {
+        background-color: white;
+    }
+    .para {
+        font-family: Georgia, serif;
+        letter-spacing: 1px;
+        font-weight: normal;
+        font-size: xx-large;
+        align-items: center;
+        margin-left: 25px;
+        padding-top: 15px;
+    }
+    a {
+        text-decoration: none;
+        color: black;
+        font-size: x-large;
+    }
+    a:hover {
+        text-decoration: underline;
+        font-style: italic;
+        letter-spacing: 1px;
+        font-weight: bold;
+    }
+    p {
+        text-align: justify;
+    }
+    img {
+        width: 200px;
+        height: 300px;
+        float: left;
+        margin: 20px 25px 10px 10px ;
+        display: block;
+    }
+</style>
+{% endblock %}
+
+articles_list.html
+
+{% extends "main.html" %}
+{% load static %}
+
+{% block title %} Article List {% endblock %}
+
+{% block content %}
+<div class="header"><span>Articles List</span>
+    <div style="float: right; margin-right: 40px;">
+        <form action="{% url 'search' %}" method="get" accept-charset="utf-8">
+            <input type="text" name="search">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+<div class="content">
+    {% for article in articles %}
+    <div style="float: left; margin: 10px 10px 10px 10px;">
+        <div>
+        <p><a href="{% url 'accounts:detail' slug=article.slug %}">{{article.title}}</a></p><hr><br>
+        </div>
+        
+        <div style="width: 100%;"><p style="float: right; margin-right: 80px;">-- {{article.article_by}},<br>{{article.article_date_and_time}}</p></div><br><br>
+    </div>
+    {% endfor %}
+    {% for article in post %}
+    <div style="float: left; margin: 10px 10px 10px 10px;">
+        <div>
+        <p><a href="{% url 'accounts:detail' slug=article.slug %}">{{article.title}}</a></p><hr><br>
+        </div>
+        
+        <div style="width: 100%;"><p style="float: right; margin-right: 80px;">-- {{article.article_by}},<br>{{article.article_date_and_time}}</p></div><br><br>
+    </div>
+    {% endfor %}
+</div>
+<a href="{% url 'article_add' %}" class="addart">Add Article</a>
+<style>
+    * {
+        outline: none;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        background: linear-gradient(to right,#bdc3c7,#2c3e50);
+        margin-bottom: 100px;
+
+    }
+    .content {
+        font-family: Georgia, serif;
+        font-size: large;
+        line-height: 1.6em;
+        margin: 50px 50px 0 60px;
+    }
+    .header {
+        width: 100%;
+        height: 60px;
+        background: #5c6e80;
+    }
+    .addart {
+        margin: 50px 50px 50px 50px;
+        float: left;
+        font-family: Georgia, serif;
+    }
+    hr {
+        background-color: white;
+    }
+    span {
+        font-family: Georgia, serif;
+        letter-spacing: 1px;
+        font-weight: normal;
+        font-size: xx-large;
+        align-items: center;
+        margin-left: 25px;
+        margin-top: 10px;
+    }
+    a {
+        text-decoration: none;
+        color: black;
+        font-size: x-large;
+    }
+    a:hover {
+        text-decoration: underline;
+        font-style: italic;
+        letter-spacing: 1px;
+        font-weight: bold;
+    }
+    p {
+        text-align: justify;
+    }
+    button:hover {
+        outline: none;
+        background: grey;
+    }
+    input[type=text], button {
+        border: 1px solid black;
+        border-radius: 3px;
+        margin-top: 15px;
+    }
+    button {
+        padding: 0 5px 0 5px;
+    }
+</style>
+{% endblock %}-->

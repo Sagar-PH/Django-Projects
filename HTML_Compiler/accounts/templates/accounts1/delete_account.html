@@ -1,0 +1,53 @@
+{% extends "main.html" %}
+
+{% block title %} Profile {% endblock %}
+
+{% block content %}
+
+<h2>Do you want to delete your account??</h2>
+{% if user.is_authenticated %}
+<form action="" method="post">
+	{%csrf_token%}
+	<input type="submit" value="Delete Account">
+</form><br>
+<a href="{% url 'profile' %}">Cancel</a>
+{% else %}
+	<p><a href="{% url 'login' %}"></a>Login</p>
+{% endif %}
+
+
+<style>
+	* {
+		outline: none;
+		margin: 0;
+		padding: 0;
+	}
+	body {
+		background: linear-gradient(to right,#bdc3c7,#2c3e50);
+		font-family: Georgia, serif;
+		margin: 20px 30px 20px 30px;
+	}
+	a {
+		text-decoration: none;
+		color: black;
+	}
+	form {
+		margin-top: 20px;
+	}
+	input[type=submit] {
+		width: 150px;
+		height: 32px;
+		font-size: large;
+		font-family: fantasy;
+		letter-spacing: 1px;
+		border:0;
+		background: #dde3e7;
+		border-radius: 2px;
+	}
+	input[type=submit]:hover {
+		background: #5c6e80;
+		color: white;
+		cursor: pointer;
+	}
+</style>
+{% endblock %}

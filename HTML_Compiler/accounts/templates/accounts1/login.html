@@ -1,0 +1,108 @@
+{% extends "main.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% block content %}
+
+<div id="login">
+	<h2>Login</h2>
+	<form method="POST" action="" class="form">
+		{% csrf_token %}
+
+		{% for form in form %}
+		{{form}} {{form.errors|striptags}} <br><br>
+		{% endfor %}	
+	
+		<input type="Submit" value="Login" class="submit">
+		<a href="{% url 'reset_password' %}" style="color: black;" class="fpassword">Forgot Password?</a>
+	</form>
+	<a href="{% url 'register' %}"><button>Register</button></a>
+	{% if messages %}
+	{% for message in messages %}
+		<small {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</small>
+	{% endfor %}
+	{% endif %}	
+</div>
+<style>
+	* {
+		font-family: fantasy;
+		outline: none;
+	}
+	body {
+		background: linear-gradient(to right,#9932cc,#00ffff);
+	}
+	#login {
+		border: 1px solid white;
+		width: 350px;
+		height: auto;
+		background: linear-gradient(to right,#00ffff,#9932cc);
+		position: relative;
+		left: 50%;
+		transform: translate(-50%, 75%);
+		padding: 20px 20px 20px 20px;
+		border-radius: 2px;
+	}
+	button {
+		background: linear-gradient(to right,#9932cc,#00ffff);
+		margin-left: 20px;
+		margin-top: 12px;
+		margin-bottom: 10px;
+		height: 30px;
+		width: 70px;
+		outline: none;
+		border-radius: 2px;
+		border: 1px solid black;
+	}
+	button:focus {
+		outline: none;
+	}
+	a {
+		text-decoration: none;
+		color: white;
+	}
+	.form {
+		margin-left: 20px;
+	}
+	.submit {
+		background: linear-gradient(to right,#9932cc,#00ffff);
+		height: 25px;
+		width: 65px;
+		outline: none;
+		border-radius: 2px;
+		border: 1px solid black;
+		margin-top: 5px;
+		margin-right: 10px;
+	}
+	h2 {
+		text-align: center;
+		margin-bottom: 15px;
+	}
+	#id_username, #id_password {
+		border-top: 0;
+		border-left: 0;
+		border-right: 0;
+		border-bottom: 1px solid white;
+		width: 90%;
+		height: 28px;
+		padding-left: 5px;
+		font-size: 14px;
+		border-radius: 2px;
+		background: transparent;
+		margin-bottom: 1px;
+	}
+	.form {
+		font-size: 12px;
+	}
+	.fpassword:hover {
+		text-decoration: underline;
+	}
+
+	@media screen and (max-width: 500px) {
+		form {
+			width: 90%;
+			height: 50%;
+		}
+	}
+</style>
+
+{% endblock %}

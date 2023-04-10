@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HTML Compiler</title>
+	<style>
+        .wrapper {
+            display: flex;
+        }
+
+        .column {
+            flex: 1;
+            padding: 10px;
+        }
+
+        .box {
+            padding: 0px 20px;
+            height: 50%;
+            background-color: #ccc;
+            margin-bottom: 10px;
+        }
+        iframe {
+            background-color: white;
+            margin-bottom: 20px;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+        .column:last-child {
+            height: 100%;
+        }
+
+        .column:last-child .box {
+            height: 100%;
+        }
+
+		#input-html,
+		#input-css {
+			width: 95%;
+			height: 200px;
+		}
+        #output {
+			width: 98%;
+			height: 50vh;
+		}
+        textarea {
+            resize: none;
+        }
+        button {
+            float: right;
+            margin: 5px 10px;
+        }
+	</style>
+	<script>
+		function compile() {
+			var htmlInput = document.getElementById("input-html").value;
+			var cssInput = document.getElementById("input-css").value;
+			var output = document.getElementById("output").contentWindow.document;
+
+			output.open();
+			output.write("<style>" + cssInput + "</style>" + htmlInput);
+			output.close();
+		}
+	</script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="column">
+            <div class="box">
+                <h3>HTML Input:</h3>
+                <textarea id="input-html"></textarea>
+            </div>
+            <div class="box">
+                <h3>CSS Input:</h3>
+                <textarea id="input-css"></textarea>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box">
+                <h3>Ouput: <button onclick="compile()">Compile</button></h3>
+	            <iframe id="output"></iframe>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

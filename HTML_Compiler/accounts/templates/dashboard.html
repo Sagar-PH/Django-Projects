@@ -1,0 +1,139 @@
+{% extends "main.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+	<div class="conatiner">
+		<a href="" class="navbar-brand text-warning font-weight-bold">LOGO</a>
+		</div>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsenavbar">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse text-left" id="collapsenavbar">
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item">
+			<a href="" class="nav-link">HOME</a>
+			</li>
+			<li class="nav-item">
+			<a href="" class="nav-link">MENU</a>
+			</li>
+			<li class="nav-item">
+			<a href="#services" class="nav-link">SERVICES</a>
+			</li>
+			<li class="nav-item">
+			<a href="#team" class="nav-link">TEAMS</a>
+			</li>
+			<li class="nav-item">
+			<a href="" class="nav-link">CONTACT</a>
+			</li>
+		</ul>
+		<div class="button">
+			<a href="{% url 'login' %}"><button class="login">Login</button></a>
+		</div>
+	</div>
+</nav> 
+<body>
+    <div class="wrapper">
+        <div class="column">
+            <div class="box">
+                <h3>HTML Input:</h3>
+                <textarea id="input-html"></textarea>
+            </div>
+            <div class="box">
+                <h3>CSS Input:</h3>
+                <textarea id="input-css"></textarea>
+            </div>
+        </div>
+        <div class="column2">
+            <div class="box">
+                <h3>Ouput: <button onclick="compile()" class="button1">Compile</button></h3>
+	            <iframe id="output"></iframe>
+            </div>
+        </div>
+    </div>
+</body>   	
+
+<style>
+	* {
+		padding: 0;
+		outline: none;
+		overflow: hidden;
+	}
+	h3 {
+		margin-top: 10px;
+		font-size: large;
+	}
+	.wrapper {
+		display: flex;
+	}
+
+	.column {
+		flex: 1;
+		padding: 10px 10px 0px 10px;
+	}
+	.column2 {
+		width: 50%;
+		margin: 10px;
+		height: 100%;
+	}
+
+	.box {
+		padding: 0px 20px;
+		height: 50%;
+		margin-bottom: 10px;
+	}
+	iframe {
+		margin-bottom: 20px;
+		border: 1px solid black;
+		border-radius: 2px;
+	}
+
+	#input-html,
+	#input-css {
+		width: 95%;
+		height: 200px;
+	}
+	#output {
+		width: 98%;
+		height: 70vh;
+	}
+	textarea {
+		resize: none;
+	}
+	.login {
+		color: white;
+		background: grey;
+		border: 1px solid white;
+		padding: 2px 8px 2px 8px;
+		border-radius: 3px;
+		margin-right: 30px;
+		font-weight: bold;
+	}
+	.login:focus {
+		outline: none;
+	}
+	.login:hover {
+		color: black;
+	}
+	.button1 {
+		float: right;
+		font-size: medium;
+		padding: 2px 5px;
+		border: 1px solid black;
+		border-radius: 3px;
+		margin: 0px 12px;
+	}
+</style>
+<script>
+	function compile() {
+		var htmlInput = document.getElementById("input-html").value;
+		var cssInput = document.getElementById("input-css").value;
+		var output = document.getElementById("output").contentWindow.document;
+
+		output.open();
+		output.write("<style>" + cssInput + "</style>" + htmlInput);
+		output.close();
+	}
+</script>
+{% endblock %}

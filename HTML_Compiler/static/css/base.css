@@ -1,0 +1,48 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+.profile {
+	text-decoration: none;
+	color: black;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+.profile:hover {
+	text-decoration: underline;
+}
+img {
+	width: 200px;
+	height: 120px;
+}
+.profile1 {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+#profile {
+	font-size: 1.1em;
+	text-decoration: none;
+	color: black;
+	position: absolute;
+	margin-top: 8px;
+}
+.header {
+	width: 100%;
+	height: 60px;
+	padding-top: 8px;
+	background-color: rgba(0,0,0,0.4);
+}
+.div {
+	width: 200px;
+	float: right;
+	margin-right: 50px;
+}
+.welcome {
+	font-size: x-large;
+	margin-left: 20px;
+}

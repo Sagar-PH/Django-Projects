@@ -1,0 +1,88 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block title %} Base {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/base.css' %}">
+<div class="header">
+	<div style="margin-top: 5px;">
+		<a class="welcome">Welcome {{name}}</a>
+		<div class="div">
+			<a href="{% url 'profile' %}" class="profile1">
+			<img src="{{ user.profile.image.url }}" alt="" class="profile"></a>
+			<a href="{% url 'profile' %}" id="profile">{{name}}</a>
+		</div>
+	</div>
+</div>
+{% if messages %}
+  {% for message in messages %}
+    <small style="font-size: 1em;" {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</small>
+  {% endfor %}
+{% endif %}
+{% for frontend in frontends %}
+  <div class="card">
+    <a href="{% url 'frontend_display' frontend.pk %}" class="card-a">
+      <img src="{{ frontend.img_link }}" alt="Example Image">
+      <div class="card-content">
+        <h3 class="card-title">{{ frontend.title }}</h3>
+        <p class="card-description">{{ frontend.description }}</p>
+        <a href="{% url 'frontend_detail' frontend.pk %}" class="but"><button class="but1">Code</button></a>
+        <a href="{% url 'edit' frontend.pk %}" class="but"><button class="but1">Edit</button></a>
+        <a href="{% url 'delete' frontend.pk %}" class="but"><button class="but1">Delete</button></a>
+      </div>
+    </a>
+  </div>    
+{% endfor %}
+
+<style>
+  body {
+    background-image: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+    font-family: Georgia, serif;
+    height: 100vh;
+  }
+  .card {
+    float: left;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    margin: 30px 20px;
+  }
+
+  .card img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .card-content {
+    padding: 20px;
+  }
+
+  .card-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .card-description {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  a, a:hover {
+    text-decoration: none;
+    color: black;
+  }
+  .but1 {
+    padding: 1px 8px;
+    margin-left: 15px;
+    background: linear-gradient(white, white) padding-box,
+              linear-gradient(to right, darkblue, darkorchid) border-box;
+    border-radius: 3px;
+    border: 1px solid transparent;
+  }
+</style>
+
+{% endblock %}

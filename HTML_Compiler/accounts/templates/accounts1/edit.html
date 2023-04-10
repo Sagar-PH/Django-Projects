@@ -1,0 +1,98 @@
+{% extends 'main.html' %}
+{% block head %}
+    <title>Edit</title>
+{% endblock %}
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <p>
+            <label for="id_title">Title:</label>
+            {{fm.title}}
+        </p>
+        <p>
+            <label for="id_description">Description:</label>
+            {{fm.description}}
+        </p>
+        <p>
+            <label for="id_img">Image Link:</label>
+            {{fm.img_link}}
+        </p>
+        <p>
+            <label for="id_html">HTML Code:</label>
+            {{fm.html}}
+        </p>
+        <p>
+            <label for="id_css">CSS Code:</label>
+            {{fm.css}}
+        </p>
+        <p>
+            <label for="id_js">Javascript Code:</label>
+            {{fm.javascript}}
+        </p>
+        <input type="submit" value="Update">
+    </form>
+    <style>
+        body {
+            display: grid;
+            justify-content: center;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        input[type=text] {
+            outline: none;
+            width: 200px;
+            height: 23px;
+            border-radius: 3px;
+            border: 1px solid black;
+            font-size: 1.05rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        label {
+            display: inline-table;
+            width: 120px;
+            font-weight: bold;
+            font-size: 1.05rem;
+        }
+        input[type=submit] {
+            width: 75px;
+            height: 30px;
+            border: 0;
+            border-radius: 3px;
+            background-color: rgb(69, 69, 121);
+            color: white;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+        
+            font-family: 'Courier New', Courier, monospace;
+        }
+        input[type=submit]:hover {
+            background-color: rgb(88, 88, 150);
+        }
+        @media screen and (max-width: 460px) {
+            label {
+                font-size: 1rem;
+            }
+            input[type="submit"] {
+                font-size: 1rem;
+                width: 80px;
+                height: 25px;
+                border-radius: 2px;
+            }
+        }
+        @media screen and (max-width: 340px) {
+            label {
+                font-size: 0.85rem;
+            }
+            input[type="submit"] {
+                font-size: 0.85rem;
+                width: 70px;
+                height: 25px;
+                border-radius: 2px;
+            }
+            input[type="text"] {
+                height: 20px;
+            }
+        }
+    </style>
+{% endblock %}

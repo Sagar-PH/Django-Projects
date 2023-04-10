@@ -1,0 +1,122 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ frontends.title }}</h5>
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="text">html</span>
+                    <button class="html-code-copy" onclick="copyCode()">Copy Code</button>
+                </div>
+                <div class="code-body">
+                    <pre><code class="html-code">{{ frontends.html }}</code></pre>
+                </div>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="text">css</span>
+                    <button class="css-code-copy" onclick="copyCode()">Copy Code</button>
+                </div>
+                <div class="code-body">
+                    <pre><code class="css-code">{{ frontends.css }}</code></pre>
+                </div>
+            </div>
+            <div class="code-container">
+              <div class="code-header">
+                  <span class="text">javascript</span>
+                  <button class="css-code-copy" onclick="copyCode()">Copy Code</button>
+              </div>
+              <div class="code-body">
+                  <pre><code class="css-code">{{ frontends.javascript }}</code></pre>
+              </div>
+          </div>
+                         
+        </div>
+    </div>
+    <style>
+        .code-container {
+          border: 1px solid #ccc;
+          width: 70%;
+          padding: 10px;
+          margin: 0 auto 20px;
+        }
+      
+        .code-header {
+          font-family: "Courier New", Courier, monospace;
+          margin-bottom: 20px;
+        }
+      
+        button {
+          float: right;
+          background-color: #ccc;
+          border: 1px solid darkred;
+          padding: 2px 5px;
+          border-radius: 2px;
+          cursor: pointer;
+        }
+      
+        .code-copy:hover {
+          background-color: #bbb;
+        }
+      
+        .code-body {
+          background-color: #f6f8fa;
+          padding: 10px;
+          border-radius: 5px;
+          overflow-x: auto;
+        }
+      
+        .code-body pre {
+          margin: 0;
+        }
+      
+        .code-body code {
+          font-family: "Courier New", Courier, monospace;
+          font-size: 14px;
+        }
+        @media (max-width: 480px) {
+          .code-container {
+            width: 90%;
+          }
+        }
+      </style>
+<script>
+    function copyCode(button) {
+  // Select the HTML or CSS code to copy
+  const codeToCopy = button.parentNode.nextElementSibling.querySelector('code');
+
+  // Create a temporary textarea to copy the code to the clipboard
+  const tempTextarea = document.createElement('textarea');
+  tempTextarea.value = codeToCopy.textContent;
+  document.body.appendChild(tempTextarea);
+
+  // Copy the code to the clipboard
+  tempTextarea.select();
+  document.execCommand('copy');
+
+  // Remove the temporary textarea from the DOM
+  document.body.removeChild(tempTextarea);
+
+  // Change the innerHTML of the button to "Copied" and reset it after 3 seconds
+  const originalText = button.innerHTML;
+  button.innerHTML = 'Copied';
+  setTimeout(() => {
+    button.innerHTML = originalText;
+  }, 3000);
+}
+
+// Add click event listeners to the HTML and CSS code-copy buttons
+const htmlCopyButton = document.querySelector('.html-code-copy');
+htmlCopyButton.addEventListener('click', () => {
+  copyCode(htmlCopyButton);
+});
+
+const cssCopyButton = document.querySelector('.css-code-copy');
+cssCopyButton.addEventListener('click', () => {
+  copyCode(cssCopyButton);
+});
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | Admin{% endblock %}
+
+{% block branding %}
+	<h1 id="site-name">
+		<a href="{% url 'admin:index' %}">Admin Login</a>
+	</h1>
+
+<style>
+	* {
+	outline: none;
+	}
+	#header {
+		background: black;
+	}
+	input[type=submit] {
+		background: black;
+	}
+	input[type=submit]:hover {
+		background: darkgrey;
+		color: black;
+		font-weight: bold;
+	}
+	#main {
+		border: 1px solid black;
+	}
+</style>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

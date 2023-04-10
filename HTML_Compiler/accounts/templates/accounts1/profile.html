@@ -1,0 +1,326 @@
+{% extends "main.html" %}
+
+{% block title %} Profile {% endblock %}
+
+{% block content %}
+
+<style>
+* {
+	outline: none;
+	margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+body {
+  background-image: linear-gradient(to top, #ebc0fd 0%, #d9ded8 100%);
+  height: 100vh;
+  margin: 20px 20px 20px 20px;
+  font-family: Georgia, serif;
+}
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px 10px 15px;
+  margin: 10px 0;
+  border: none;
+  cursor: pointer;
+  width: auto;
+  height: auto;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+button:focus {
+  outline: none;
+}
+.submit {
+  width: 93%;
+}
+.cancelbtn {
+  width: auto;
+  padding: 10px 15px 10px 15px;
+  background-color: #f44336;
+}
+#id_username, #id_first_name, #id_last_name, #id_email, #id_phone_number, #id_profession {
+	width: 90%;
+	height: 28px;
+	border-radius: 2px;
+	border-left: 0;
+	border-top: 0;
+	border-right: 0;
+	border-bottom: 2px solid black;
+	font-size: 18px;
+	font-family: Georgia, serif;
+	padding-left: 10px;
+	margin-bottom: 8px;
+}
+#id_first_name, #id_last_name {
+  width: 88%;
+}
+#id_image {
+  width: auto;
+  height: auto;
+  border-radius: 5px;
+}
+label{
+	font-size: 19px;
+  margin: 0;
+}
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+hr {
+  margin-top: 3px;
+  border-color: 2px solid black;
+  width: 95%;
+}
+img.avatar {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.flex {
+  width: 100%;
+  display: flex;
+}
+
+.container {
+	padding: 16px;
+}
+.container1 {
+	padding-left: 15px;
+	padding-right: 15px
+}
+span.psw {
+  font-size: large;
+  float: right;
+  padding-top: 15px;
+  margin-right: 30px;
+}
+#profile {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  padding-top: 60px;
+}
+.profile_content {
+  background-color: transparent;
+  margin: 0% auto 10% auto;
+  border: 2px solid black;
+  width: 450px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+}
+a, a:hover {
+	color: grey;
+}
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+.msg {
+  font-size: x-large;
+  margin-left: 15px;
+}
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+.div1 {
+	font-size: x-large;
+	width: 360px;
+	border: 1px solid black;
+	padding: 20px;
+  margin-right: 30px;
+  margin-top: 10px;
+}
+.avatar1 {
+  margin-top: 10px;
+  object-fit: cover;
+  height: 500px;
+  width: 20%;
+}
+.avatar2 {
+  width: 160px;
+  margin-left: 25px;
+  object-fit: cover;
+  height: 150px;
+  margin-top: 10px;
+}
+.profile1 {
+  float: right;
+  width: 80%;
+  margin-top: 10px;
+}
+.profile2 {
+  height: 150px;
+}
+.profile3 {
+  float: right;
+  margin-right: 30px;
+}
+.profile4 {
+  border: 1px solid black;
+  height: auto;
+  width: 70%;
+  margin-right: 30px;
+  padding: 20px;
+}
+.logout {
+  width: auto;
+  height: auto;
+  padding: 10px 15px 10px 15px;
+}
+.delacc {
+  margin-left: 30px;
+  color: black;
+}
+.skill {
+  width: 100%;
+  height: auto;
+  margin-top: 50px;
+  padding: 10px 0 0 30px;
+  color: black;
+  font-weight: bold;
+}
+</style>
+<div style="float: left; width: 100%; display: flex;">
+  <div class="avatar1">
+   <a href="{{ user.profile.image.url }}"><img src="{{ user.profile.image.url }}" alt="" class="avatar2"></a><br>
+   <div class="skill"><p>Skills</p>
+   </div>
+  </div>
+  <div class="profile1">
+    <div class="profile2">
+      <div class="profile3">
+        <button onclick="document.getElementById('profile').style.display='block'" style="width:auto;">Edit Profile</button><br>
+      </div>
+      <div style="width: 150px; float: right;">
+        <a href="{% url 'logout' %}"><button class="logout">Logout</button></a>
+      </div>  
+      <div class="div1">
+        <p style="margin-bottom: 2px; color: black; height: auto; font-size: smaller;">{{user.first_name}} {{user.last_name}}</p>
+        <p style="color: #2a9df4; letter-spacing: 1px; font-size: small; margin-bottom: 0;">{{user.profile.profession}}</p>
+      </div>
+    </div>
+    <div class="profile4">
+      <div class="msg">
+        {% if messages %}
+          {% for message in messages %}
+            <small {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}
+            {% for form in u_form %}
+              {{form.errors|striptags}}
+            {% endfor %}
+            </small>
+          {% endfor %} 
+        {% endif %}
+      </div>
+      <div  style="color: black; padding: 0 0 0 20px; line-height: 1.6em; font-size: larger;"><div style="padding-left: 8px;">About</div><hr>
+        <div style="display: flex;">
+          <div style="width: 50%; padding-left: 8px;">
+            <span>Username:</span><br>
+            <span>Name:</span><br>
+            <span>Email:</span><br>
+            <span>Profession:</span>
+          </div>
+          <div style="width: 50%; padding-left: 8px; color: #000">
+            <span>{{user.username}}</span><br>
+            <span>{{user.first_name}} {{user.last_name}}</span><br>
+            <span>{{user.email}}</span><br>
+            <span>{{user.profile.profession}}</span>
+          </div>
+        </div>
+      </div><br>
+      <a href="{% url 'delete_account' user.id %}" class="delacc">Delete Account</a>
+  </div>
+</div>
+<div id="profile">
+  <form class="profile_content animate" action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('profile').style.display='none'" class="close" title="Close Profile">&times;</span>
+      <a href="{{ user.profile.image.url }}"><img src="{{ user.profile.image.url }}" alt="" class="avatar"></a>
+    </div>
+    <div class="container">
+      <label>Username:</label>
+        {{u_form.username}}
+      <div class="flex">
+        <div style="width: 48%;" id="fn1">
+          <label id="fn">First name:</label><br>
+            {{u_form.first_name}}
+        </div>
+        <div style="width: 48%;" id="ln1">
+          <label id="ln">Last name:</label><br>
+          {{u_form.last_name}}
+        </div>
+      </div>
+      <label>Email:</label>
+        {{u_form.email}}<br>
+      <label>Profession:</label>
+        {{p_form.profession}}
+      <div>
+        <label>Change Profile Picture:</label>
+        <div class="pform" style="color: white;">
+          <input type="file" name="image" accept="image/*" id="id_image">
+        </div>
+      </div>
+    </div>
+    <div class="container1">
+    	<button type="submit" name="Update User" value="Update" class="submit">Update Profile</button>
+      <button type="button" onclick="document.getElementById('profile').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw"><a href="{% url 'password_change' %}">Change Password</a></span>
+    </div>
+  </form>
+</div>
+<script>
+var profile = document.getElementById('profile');
+
+// When the user clicks anywhere outside of the profile, close it
+window.onclick = function(event) {
+    if (event.target == profile) {
+        profile.style.display = "none";
+    }
+}
+</script>
+
+{% endblock %}
